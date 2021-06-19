@@ -2,9 +2,8 @@ package controller;
 
 import database.DB;
 import model.Client;
+import services.ClientService;
 import services.InputReader;
-
-import java.sql.SQLException;
 
 public class ClientController {
     private final InputReader inputReader;
@@ -15,29 +14,19 @@ public class ClientController {
     }
 
     public Client createClient() {
-        String name = getName();
+        ClientService clientService = new ClientService(inputReader);
+
+        String name = clientService.getName();
+
         String query = String.format("INSERT Clients(name) VALUES ('%s');", name);
+
         try {
             DB.executeUpdate(query);
-            System.out.println("Success");
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
         }
+
         return new Client(name);
-    }
-
-
-    private String getName() {
-        System.out.println("Введите имя клиента");
-
-        return inputReader.getString();
-    }
-
-    public int getId() {
-        String name = getName();
-        String query = "SELECT * FROM Clients WHERE name='" + name + "';";
-
-        return DB.getId(query);
     }
 
 }

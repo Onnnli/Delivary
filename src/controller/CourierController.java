@@ -2,9 +2,11 @@ package controller;
 
 import database.DB;
 import model.Courier;
+import services.CourierService;
 import services.InputReader;
 
 public class CourierController {
+
     private final InputReader inputReader;
 
     public CourierController(InputReader inputReader) {
@@ -13,8 +15,11 @@ public class CourierController {
     }
 
     public Courier createCourier() {
-        String name = getName();
+        CourierService courierService = new CourierService(inputReader);
+        String name = courierService.getName();
+
         String query = String.format("INSERT Couriers(name) VALUES ('%s');", name);
+
         try {
             DB.executeUpdate(query);
             System.out.println("Success");
@@ -23,19 +28,5 @@ public class CourierController {
         }
 
         return new Courier(name);
-    }
-
-
-    public String getName() {
-        System.out.println("Введите имя курьера");
-
-        return inputReader.getString();
-    }
-
-    public int getId() {
-        String name = getName();
-        String query = "SELECT * FROM Couriers WHERE name='" + name + "';";
-
-       return DB.getId(query);
     }
 }

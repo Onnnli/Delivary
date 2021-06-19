@@ -1,22 +1,33 @@
 package model;
 
-import java.sql.Date;
-
 public class Order {
-    public int id;
     public String name;
-    public float cost;
-    public Client client;
-    public Courier courier;
+    public Float cost;
+    public Integer clientId;
+    public Integer courierId;
+    public Integer productId;
     public String address;
     public String createdDate;
-    public Date delivered;
+    public String delivered;
 
+    public Order(String name,
+                 Integer courierId,
+                 Integer clientId,
+                 Integer productId,
+                 Float cost,
+                 String address,
+                 String createdDate,
+                 String delivered) {
 
-    public Order(String name, String address, String createdDate) {
         this.name = name;
+        this.courierId = courierId;
+        this.clientId = clientId;
+        this.productId = productId;
+        this.cost = cost;
         this.address = address;
         this.createdDate = createdDate;
+        this.delivered = delivered;
+
     }
 
 }
