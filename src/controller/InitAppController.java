@@ -4,7 +4,7 @@ import database.DB;
 import model.Client;
 import model.Courier;
 import model.Order;
-import services.InputReader;
+import services.*;
 
 public class InitAppController {
     private static InputReader inputReader;
@@ -14,7 +14,7 @@ public class InitAppController {
         InitAppController.inputReader = inputReader;
     }
 
-    public static void createTask() {
+    public static void createTask(){
         String task = getNumberTask();
         InitAppController.someTask(task);
     }
@@ -64,6 +64,82 @@ public class InitAppController {
 
                 InitAppController.createTask();
             }
+            case "8" -> {
+                DB.executeQuery("SELECT * FROM Orders WHERE isnull(deliveredDate)");
+
+                InitAppController.createTask();
+            }
+            case "9" -> {
+                DB.executeQuery("SELECT * FROM Orders WHERE deliveredDate");
+
+                InitAppController.createTask();
+            }
+            case "10" -> {
+                CourierService courierService = new CourierService(inputReader);
+                courierService.getCouriersNotDelivered();
+
+                InitAppController.createTask();
+            }
+            case "11" -> {
+                ClientService clientService = new ClientService(inputReader);
+                clientService.getClientsNotDelivered();
+
+                InitAppController.createTask();
+            }
+            case "12" -> {
+                CourierService courierService = new CourierService(inputReader);
+                courierService.getCouriersDelivered();
+
+                InitAppController.createTask();
+            }
+            case "13" -> {
+                ClientService clientService = new ClientService(inputReader);
+                clientService.getClientsDelivered();
+
+                InitAppController.createTask();
+            }
+            case "14" -> {
+                OrderService orderService = new OrderService(inputReader);
+                orderService.getClientsOrderCertainTime();
+
+                InitAppController.createTask();
+            }
+            case "15" -> {
+                OrderService orderService = new OrderService(inputReader);
+                orderService.getClientsOrderNotDeliveredCertainTime();
+
+                InitAppController.createTask();
+            }
+            case "16" -> {
+                OrderService orderService = new OrderService(inputReader);
+                orderService.getCouriersOrderCertainTime();
+
+                InitAppController.createTask();
+            }
+            case "17" -> {
+                OrderService orderService = new OrderService(inputReader);
+                orderService.getCourierOrderNotDeliveredCertainTime();
+
+                InitAppController.createTask();
+            }
+            case "18" -> {
+                OrderService orderService = new OrderService(inputReader);
+                orderService.getExpensiveOrder();
+
+                InitAppController.createTask();
+            }
+            case "19" -> {
+                OrderService orderService = new OrderService(inputReader);
+                orderService.getCheapOrder();
+
+                InitAppController.createTask();
+            }
+            case "20" -> {
+                OrderService orderService = new OrderService(inputReader);
+                orderService.getLastOrder();
+
+                InitAppController.createTask();
+            }
             default -> System.out.println("Выход");
         }
     }
@@ -76,23 +152,19 @@ public class InitAppController {
         System.out.println("5: Вывести имена всех курьеров");
         System.out.println("6: Вывести имена всех заказов");
         System.out.println("7: Создать новый продукт");
-
         System.out.println("8: Вывести имена всех не доставленных заказов");
-        System.out.println("9: Вывести имена всех не доставленных заказов определенного курьера");
-        System.out.println("10: Вывести имена всех не доставленных заказов определенного клиента");
-        System.out.println("11: Вывести имена всех доставленных заказов определенного курьера");
-        System.out.println("12: Вывести имена всех доставленных заказов определенного клиента");
-        System.out.println("13: Вывести имена всех доставленных заказов определенного клиента за определенную дату");
-        System.out.println("14: Вывести имена всех не доставленных заказов определенного клиента за определенную дату");
-        System.out.println("15: Вывести имена всех доставленных заказов определенного курьера за определенную дату");
-        System.out.println("16: Вывести имена всех не доставленных заказов определенного курьера за определенную дату");
-        System.out.println("17: Вывести имя самого дорогого заказа из всех клиентов");
-        System.out.println("18: Вывести имя самого дешевого заказа из всех клиентов");
-        System.out.println("19: Вывести имя самого дорогого заказа из всех курьеров");
-        System.out.println("20: Вывести имя самого дешевого заказа из всех курьеров");
-        System.out.println("21: Вывести последний доставленный заказ");
-        System.out.println("22: Вывести первый доставленный заказ");
-
+        System.out.println("9: Вывести имена всех доставленных заказов");
+        System.out.println("10: Вывести имена всех не доставленных заказов определенного курьера");
+        System.out.println("11: Вывести имена всех не доставленных заказов определенного клиента");
+        System.out.println("12: Вывести имена всех доставленных заказов определенного курьера");
+        System.out.println("13: Вывести имена всех доставленных заказов определенного клиента");
+        System.out.println("14: Вывести имена всех доставленных заказов определенного клиента за определенную дату");
+        System.out.println("15: Вывести имена всех не доставленных заказов определенного клиента за определенную дату");
+        System.out.println("16: Вывести имена всех доставленных заказов определенного курьера за определенную дату");
+        System.out.println("17: Вывести имена всех не доставленных заказов определенного курьера за определенную дату");
+        System.out.println("18: Вывести имя самого дорогого заказа");
+        System.out.println("19: Вывести имя самого дешевого заказа");
+        System.out.println("20: Вывести последний доставленный заказ");
 
         return inputReader.getString();
     }

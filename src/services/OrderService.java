@@ -1,5 +1,7 @@
 package services;
 
+import database.DB;
+
 public class OrderService {
     private final InputReader inputReader;
 
@@ -46,4 +48,66 @@ public class OrderService {
 
         return clientService.getId();
     }
+
+    public void getClientsOrderCertainTime() {
+        ClientService clientService = new ClientService(inputReader);
+        Integer clientId = clientService.getId();
+        System.out.println("Введите старт временного промежутка");
+        String startDate = inputReader.getString();
+        System.out.println("Введите конец временного промежутка");
+        String endDate = inputReader.getString();
+
+        DB.executeQuery("SELECT * FROM Orders WHERE clientId = '" + clientId + "' AND  deliveredDate between '" + startDate + "' and '" + endDate + "' ");
+
+    }
+
+    public void getClientsOrderNotDeliveredCertainTime() {
+        ClientService clientService = new ClientService(inputReader);
+
+        Integer clientId = clientService.getId();
+        System.out.println("Введите старт временного промежутка");
+        String startDate = inputReader.getString();
+        System.out.println("Введите конец временного промежутка");
+        String endDate = inputReader.getString();
+
+        DB.executeQuery("SELECT * FROM Orders WHERE clientId = '" + clientId + "' AND  createdDate between '" + startDate + "' and '" + endDate + "' and isnull(deliveredDate)");
+
+    }
+
+    public void getCouriersOrderCertainTime() {
+        CourierService courierService = new CourierService(inputReader);
+
+        Integer courierId = courierService.getId();
+
+        System.out.println("Введите старт временного промежутка");
+        String startDate = inputReader.getString();
+        System.out.println("Введите конец временного промежутка");
+        String endDate = inputReader.getString();
+
+        DB.executeQuery("SELECT * FROM Orders WHERE courierId = '" + courierId + "' AND  deliveredDate between '" + startDate + "' and '" + endDate + "' ");
+
+    }
+
+    public void getCourierOrderNotDeliveredCertainTime() {
+        CourierService courierService = new CourierService(inputReader);
+        Integer courierId = courierService.getId();
+        System.out.println("Введите старт временного промежутка");
+        String startDate = inputReader.getString();
+        System.out.println("Введите конец временного промежутка");
+        String endDate = inputReader.getString();
+        DB.executeQuery("SELECT * FROM Orders WHERE courierId = '" + courierId + "' AND  createdDate between '" + startDate + "' and '" + endDate + "' and isnull(deliveredDate)");
+    }
+
+    public void getExpensiveOrder() {
+        DB.executeQuery("SELECT * FROM Orders ORDER BY cost DESC");
+    }
+
+    public void getCheapOrder() {
+        DB.executeQuery("SELECT * FROM Orders ORDER BY cost");
+    }
+
+    public void getLastOrder() {
+        DB.getLastOrder("SELECT * FROM Orders ORDER BY deliveredDate DESC");
+    }
+
 }

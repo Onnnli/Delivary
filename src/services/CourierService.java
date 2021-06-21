@@ -26,4 +26,15 @@ public class CourierService {
         System.out.println("Выберите курьера");
         DB.executeQuery("SELECT  * FROM Couriers");
     }
+
+    public void getCouriersNotDelivered() {
+        getAllCouriers();
+        Integer courierId = getId();
+        DB.executeQuery("SELECT * FROM Orders WHERE courierId = '" + courierId +"' AND isnull(deliveredDate)");
+    }
+    public void getCouriersDelivered() {
+        getAllCouriers();
+        Integer courierId = getId();
+        DB.executeQuery("SELECT * FROM Orders WHERE courierId = '" + courierId +"' AND deliveredDate");
+    }
 }

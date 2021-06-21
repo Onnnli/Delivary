@@ -12,8 +12,7 @@ public class DateService {
     }
 
     public String getDeliveredDate() {
-            System.out.println("Доставлена");
-            return getCreatedDate();
+        System.out.println("Доставлена");
+        return getCreatedDate();
     }
-
 }

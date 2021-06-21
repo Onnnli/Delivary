@@ -32,12 +32,10 @@ public class DB {
         try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "Qwerty123!")) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-
             while (resultSet.next()) {
                 System.out.println(resultSet.getString("name"));
             }
         } catch (Exception ex) {
-
             System.out.println(ex.getMessage());
         }
     }
@@ -72,6 +70,22 @@ public class DB {
             System.out.println("error");
             System.out.println(ex.getMessage());
 
+            return null;
+        }
+    }
+    public static String getLastOrder(String query) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shop", "root", "Qwerty123!")) {
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet resultSet = statement.executeQuery(query);
+            resultSet.first();
+            String nameOrder = resultSet.getString("name");
+            String deliveredDate = resultSet.getString("deliveredDate");
+            String result = "" + nameOrder  +" " + deliveredDate + "";
+            System.out.println(result);
+            return result;
+        } catch (Exception ex) {
+
+            System.out.println(ex.getMessage());
             return null;
         }
     }
